@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BillWhiz
 
-## Getting Started
+> AI-powered invoice explainer and smart invoice sender built with Next.js, Groq, and Resend.
 
-First, run the development server:
+BillWhiz helps users upload invoices (PDFs or images), automatically extract billing data, explain charges in plain English using AI, detect suspicious or unusual fees, and send professional invoice summaries via email.
+
+---
+
+# ✨ Features
+
+* 📄 Upload invoices as PDFs or images
+* 🔍 Extract structured invoice data
+* 🧠 AI-generated invoice explanations using Groq
+* 🚨 Detect anomalies or suspicious charges
+* 📧 Send invoice summaries via Resend
+* ⚡ Fast modern UI with Next.js + Tailwind
+* 🎬 Smooth animations using Framer Motion
+* 🧩 Accessible UI primitives with Radix UI
+
+---
+
+# 🧠 High-Level Architecture
+
+```txt
+1. User uploads invoice (PDF/Image)
+        ↓
+2. Parse invoice data
+   - PDF → pdf-parse
+   - Image → OCR (tesseract.js)
+        ↓
+3. Send structured data to Groq LLM
+        ↓
+4. AI generates:
+   - Charge explanations
+   - Anomaly detection
+        ↓
+5. Format clean invoice summary
+        ↓
+6. Send email using Resend
+```
+
+---
+
+# ⚙️ Tech Stack
+
+| Layer         | Technology                          |
+| ------------- | ----------------------------------- |
+| Frontend      | Next.js (App Router)                |
+| Styling       | Tailwind CSS                        |
+| Animation     | Framer Motion                       |
+| UI Components | Radix UI                            |
+| Backend       | Next.js API Routes / Server Actions |
+| AI            | Groq                                |
+| Email         | Resend                              |
+| PDF Parsing   | pdf-parse                           |
+| OCR           | tesseract.js                        |
+
+---
+
+# 📦 Installation
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+git clone https://github.com/Lucid-Synth/BillWhiz
+cd BillWhiz
+```
+
+Install dependencies:
+
+```bash
+bun install
+```
+
+Run development server:
+
+```bash
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🛠 Future Improvements
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Stripe subscriptions
+* Multi-language support
+* Invoice history dashboard
+* AI spending insights
+* Team collaboration
+* Export to CSV/PDF
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# 📸 Demo Ideas
 
-To learn more about Next.js, take a look at the following resources:
+* Upload telecom bill
+* SaaS subscription invoice
+* Utility bill
+* Medical invoice
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 📄 License
 
-## Deploy on Vercel
+MIT License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 💡 Vision
+
+BillWhiz simplifies complex invoices into understandable insights using AI — helping users save time, detect billing issues, and communicate professionally.
