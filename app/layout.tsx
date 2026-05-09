@@ -22,7 +22,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${syne.variable} h-full antialiased relative`}
+      suppressHydrationWarning
+      className={`${syne.variable} h-full antialiased relative`}
     >
       <body className="min-h-full flex flex-col relative">{children}</body>
     </html>
