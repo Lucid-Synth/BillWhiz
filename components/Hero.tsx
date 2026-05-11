@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowIcon } from "@/app/page";
 
@@ -29,7 +29,13 @@ function Orb({ className }: OrbProps): React.ReactElement {
 }
 
 function Hero() {
+  const [mounted, setMounted] = useState<boolean>(false);
   const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -54,10 +60,10 @@ function Hero() {
       >
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={mounted ? { opacity: 0, scale: 0.9 } : false}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.75, delay: 0.18, ease: "easeOut" }}
           className="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 text-xs font-medium tracking-wider uppercase"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
@@ -66,10 +72,10 @@ function Hero() {
 
         {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={mounted ? { opacity: 0, y: 30 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.75, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
           className="text-5xl md:text-7xl font-bold leading-[1.06] tracking-tight mb-6"
           style={{ fontFamily: "'Syne', sans-serif" }}
         >
@@ -79,10 +85,10 @@ function Hero() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={mounted ? { opacity: 0, y: 20 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.75, delay: 0.30, ease: [0.22, 1, 0.36, 1] }}
           className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed"
         >
           Upload any invoice — PDF or image — and BillWhiz uses AI to decode
@@ -90,10 +96,10 @@ function Hero() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={mounted ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.34 }}
+          transition={{ duration: 0.75, delay: 0.36 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <a
@@ -115,10 +121,10 @@ function Hero() {
 
         {/* Tech stack badges */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={mounted ? { opacity: 0 } : false}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.55, duration: 0.5 }}
+          transition={{ duration: 0.75, delay: 0.42 }}
           className="mt-12 flex flex-wrap items-center justify-center gap-2"
         >
           {techStack.map((t) => (
@@ -134,10 +140,10 @@ function Hero() {
 
       {/* Hero invoice mockup */}
       <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.96 }}
+        initial={mounted ? { opacity: 0, y: 50, scale: 0.96 } : false}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.75, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.75, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 mt-16 w-full max-w-2xl mx-auto"
       >
         <div className="rounded-2xl border border-white/10 bg-[#13141A] overflow-hidden shadow-2xl shadow-black/50">

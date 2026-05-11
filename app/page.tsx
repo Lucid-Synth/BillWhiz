@@ -140,13 +140,19 @@ export function FadeUp({
   delay = 0,
   className = "",
 }: FadeUpProps): React.ReactElement {
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={mounted ? { opacity: 0, y: 28 } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{
-        duration: 0.55,
+        duration: 0.75,
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}

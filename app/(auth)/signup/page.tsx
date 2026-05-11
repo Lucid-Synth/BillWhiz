@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { JSX, FormEvent, ChangeEvent } from "react";
@@ -82,9 +82,14 @@ function FloatingInput({
 
 
 export default function SignupPage(): JSX.Element {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [form, setForm] = useState<SignupForm>({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState<boolean>(false);
   const [done, setDone] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -117,9 +122,9 @@ export default function SignupPage(): JSX.Element {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={mounted ? { opacity: 0, y: -10 } : false}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.75, delay: 0.18 }}
         className="mb-10 relative z-10"
       >
         <Link href="/" className="flex items-center gap-2.5 group">
@@ -131,9 +136,9 @@ export default function SignupPage(): JSX.Element {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        initial={mounted ? { opacity: 0, y: 20, scale: 0.98 } : false}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 w-full max-w-sm"
       >
         <div className="rounded-2xl border border-white/8 bg-[#111216] shadow-2xl shadow-black/60 p-7">
@@ -152,9 +157,9 @@ export default function SignupPage(): JSX.Element {
             {done ? (
               <motion.div
                 key="success"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={mounted ? { opacity: 0, scale: 0.95 } : false}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
                 className="py-8 text-center space-y-3"
               >
                 <div className="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto">
@@ -172,7 +177,7 @@ export default function SignupPage(): JSX.Element {
                 onSubmit={handleSubmit}
                 className="space-y-3"
                 noValidate
-                initial={{ opacity: 0 }}
+                initial={mounted ? { opacity: 0 } : false}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
