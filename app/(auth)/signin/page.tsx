@@ -53,6 +53,7 @@ function FloatingInput({
             ? "border-amber-400/60 bg-white/6 shadow-[0_0_0_3px_rgba(251,191,36,0.08)]"
             : "border-white/8 hover:border-white/[0.14]",
         ].join(" ")}
+        suppressHydrationWarning
       />
       <label
         htmlFor={field.id}

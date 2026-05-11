@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef} from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -135,23 +135,27 @@ export const features: Feature[] = [
 
 
 
-export function FadeUp({ children, delay = 0, className = "" }: FadeUpProps): React.ReactElement {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
+export function FadeUp({
+  children,
+  delay = 0,
+  className = "",
+}: FadeUpProps): React.ReactElement {
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{
+        duration: 0.55,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={className}
     >
       {children}
     </motion.div>
   );
 }
-
 
 
 export function Orb({ className }: OrbProps): React.ReactElement {
@@ -189,10 +193,6 @@ export default function Home(): React.ReactElement {
         <Footer />
 
 
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
-          html { scroll-behavior: smooth; }
-        `}</style>
       </div>
     </Tooltip.Provider>
   );
