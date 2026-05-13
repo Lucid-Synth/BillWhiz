@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { sql } from "drizzle-orm";
 import { AsyncLocalStorage } from "async_hooks";
+import * as schema from '@/app/drizzle/schema/index'
 
 const pool = new Pool({
   connectionString: process.env.NILEDB_URL,
@@ -12,7 +13,7 @@ pool.on("error", (err) => {
   console.error("Unexpected PG error", err);
 });
 
-export const db = drizzle(pool);
+export const db = drizzle(pool,{schema});
 export const tenantContext = new AsyncLocalStorage<string | undefined>();
 
 export function tenantDB<T>(cb: (tx: any) => T | Promise<T>): Promise<T> {
