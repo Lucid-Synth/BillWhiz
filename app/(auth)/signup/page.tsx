@@ -100,7 +100,6 @@ export default function SignupPage(): JSX.Element {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
-    console.log(form);
     const { data, error } = await authClient.signUp.email({
       email: form.email,
       name: form.name,
