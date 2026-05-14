@@ -61,10 +61,10 @@ function Pricing() {
                     </ul>
     
                     <a
-                      href="https://github.com"
+                      href="/signin"
                       className="group flex items-center justify-center gap-2.5 w-full py-3.5 rounded-xl bg-amber-400 text-[#0A0B0F] font-bold text-sm hover:bg-amber-300 transition-colors"
                     >
-                      Clone on GitHub
+                      Try for free
                       <span className="group-hover:translate-x-0.5 transition-transform">
                         <ArrowIcon />
                       </span>

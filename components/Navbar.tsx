@@ -24,7 +24,7 @@ function Navbar() {
           </a>
         </nav>
         <a
-          href="#pricing"
+          href="/signup"
           className="text-sm px-4 py-1.5 rounded-lg bg-amber-400 text-[#0A0B0F] font-semibold hover:bg-amber-300 transition-colors"
         >
           Get started

@@ -103,7 +103,7 @@ function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <a
-            href="#pricing"
+            href="/signup"
             className="group flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-amber-400 text-[#0A0B0F] font-bold text-sm hover:bg-amber-300 transition-colors"
           >
             Start for free
