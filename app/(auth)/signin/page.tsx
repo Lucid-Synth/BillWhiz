@@ -113,6 +113,18 @@ export default function LoginPage(): JSX.Element {
     )
   };
 
+  const handleSocialAuth = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      })
+    }
+    catch(err:any){
+      console.error(err);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#0A0B0F] flex flex-col items-center justify-center px-4 relative overflow-hidden">
 
@@ -235,6 +247,7 @@ export default function LoginPage(): JSX.Element {
                 <button
                   type="button"
                   className="w-full py-2.5 rounded-xl border border-white/8 bg-white/3 hover:bg-white/6 hover:border-white/[0.14] transition-all text-sm text-white/60 font-medium flex items-center justify-center gap-2.5"
+                  onClick={handleSocialAuth}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" className="shrink-0">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
