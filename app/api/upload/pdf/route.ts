@@ -11,5 +11,5 @@ console.log(text)
 
 
 export async function GET(request: Request){
-    return NextResponse.json({message: "Server is running!!"},{status:200});
+    return NextResponse.json({message: "pdf api route!!"},{status:200});
 }
