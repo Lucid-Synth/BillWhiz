@@ -2,13 +2,13 @@
 
 > AI-powered invoice explainer and smart invoice sender built with Next.js, Groq, and Resend.
 
-BillWhiz helps users upload invoices (PDFs or images), automatically extract billing data, explain charges in plain English using AI, detect suspicious or unusual fees, and send professional invoice summaries via email.
+BillWhiz helps users upload invoices as PDFs , automatically extract billing data, explain charges in plain English using AI, detect suspicious or unusual fees, and send professional invoice summaries via email.
 
 ---
 
 # ✨ Features
 
-* 📄 Upload invoices as PDFs or images
+* 📄 Upload invoices as PDFs
 * 🔍 Extract structured invoice data
 * 🧠 AI-generated invoice explanations using Groq
 * 🚨 Detect anomalies or suspicious charges
