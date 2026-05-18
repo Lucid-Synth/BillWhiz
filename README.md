@@ -8,7 +8,7 @@ BillWhiz helps users upload invoices (PDFs or images), automatically extract bil
 
 # ✨ Features
 
-* 📄 Upload invoices as PDFs or images
+* 📄 Upload invoices as PDFs
 * 🔍 Extract structured invoice data
 * 🧠 AI-generated invoice explanations using Groq
 * 🚨 Detect anomalies or suspicious charges
