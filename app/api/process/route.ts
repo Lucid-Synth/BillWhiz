@@ -6,12 +6,48 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY!,
 });
 
+// In-memory processing tracker
+const activeRequests = new Map();
+
 export async function POST(req: NextRequest) {
   try {
+    // request isolation
+    const requestId =
+      req.nextUrl.searchParams.get(
+        "requestId"
+      );
+
+    if (!requestId) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing requestId",
+        },
+        { status: 400 }
+      );
+    }
+
+    // prevent duplicate processing
+    if (activeRequests.has(requestId)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "This request is already processing",
+        },
+        { status: 409 }
+      );
+    }
+
+    activeRequests.set(requestId, true);
+
     const body = await req.json();
+
     const { pdfUrl } = body;
 
     if (!pdfUrl) {
+      activeRequests.delete(requestId);
+
       return NextResponse.json(
         {
           success: false,
@@ -21,23 +57,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    console.log(
+      `[${requestId}] Starting invoice analysis`
+    );
+
+    // Fetch PDF
     const response = await fetch(pdfUrl);
 
     if (!response.ok) {
       throw new Error("Failed to fetch PDF");
     }
 
-
-    const arrayBuffer = await response.arrayBuffer();
+    // Convert PDF
+    const arrayBuffer =
+      await response.arrayBuffer();
 
     const pdf = await getDocumentProxy(
       new Uint8Array(arrayBuffer)
     );
 
-
+    // Extract text
     const { text } = await extractText(pdf);
 
-
+    // Clean extracted text
     const cleanedText = (
       Array.isArray(text)
         ? text.join("\n")
@@ -47,10 +89,11 @@ export async function POST(req: NextRequest) {
       .replace(/[^\x20-\x7E\n]/g, "")
       .trim();
 
-    // Prevent giant invoices from exploding token usage
-    const truncatedText = cleanedText.slice(0, 12000);
+    // Prevent token explosion
+    const truncatedText =
+      cleanedText.slice(0, 12000);
 
-    // Groq Prompt
+    // Prompt
     const SYSTEM_PROMPT = `
 You are a highly accurate invoice analysis AI.
 
@@ -115,62 +158,75 @@ Return JSON in this exact schema:
 
 Rules:
 - Return ONLY valid JSON
-- No markdown
-- No comments
-- No explanation outside JSON
 `;
 
-    // Groq API
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      temperature: 0.2,
-      response_format: {
-        type: "json_object",
-      },
-      messages: [
-        {
-          role: "system",
-          content: SYSTEM_PROMPT,
+    // Groq call
+    const completion =
+      await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.2,
+        response_format: {
+          type: "json_object",
         },
-        {
-          role: "user",
-          content: USER_PROMPT,
-        },
-      ],
-    });
+        messages: [
+          {
+            role: "system",
+            content: SYSTEM_PROMPT,
+          },
+          {
+            role: "user",
+            content: USER_PROMPT,
+          },
+        ],
+      });
 
     const rawContent =
-      completion.choices?.[0]?.message?.content;
+      completion.choices?.[0]?.message
+        ?.content;
 
     if (!rawContent) {
       throw new Error("No AI response");
     }
 
-    // Parse AI JSON safely
     let parsedResult;
 
     try {
-      parsedResult = JSON.parse(rawContent);
+      parsedResult =
+        JSON.parse(rawContent);
     } catch (err) {
-      console.error("Invalid JSON from AI:", rawContent);
+      console.error(
+        "Invalid JSON from AI:",
+        rawContent
+      );
 
-      throw new Error("AI returned invalid JSON");
+      throw new Error(
+        "AI returned invalid JSON"
+      );
     }
 
-    console.log(parsedResult);
+    console.log(
+      `[${requestId}] Completed`
+    );
+
+    activeRequests.delete(requestId);
 
     return NextResponse.json({
       success: true,
+      requestId,
       data: parsedResult,
     });
   } catch (error: any) {
-    console.error("Invoice Analysis Error:", error);
+    console.error(
+      "Invoice Analysis Error:",
+      error
+    );
 
     return NextResponse.json(
       {
         success: false,
         error:
-          error?.message || "Failed to analyze invoice",
+          error?.message ||
+          "Failed to analyze invoice",
       },
       { status: 500 }
     );

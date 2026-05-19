@@ -39,34 +39,41 @@ export default function PdfUploader() {
     useState<InvoiceResult | null>(null);
 
   const handleParsePdf = async (pdfUrl: string) => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const response = await fetch("/api/process", {
+    // unique request per upload
+    const requestId = crypto.randomUUID();
+
+    const response = await fetch(
+      `/api/process?requestId=${requestId}`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           pdfUrl,
+          requestId,
         }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(
-          data.error || "Failed to process invoice"
-        );
       }
+    );
 
-      setInvoiceData(data.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.error || "Failed to process invoice"
+      );
     }
-  };
+
+    setInvoiceData(data.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-6 space-y-6">
