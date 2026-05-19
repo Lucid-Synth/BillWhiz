@@ -42,7 +42,7 @@ export default function PdfUploader() {
         endpoint="pdfUploader"
         onClientUploadComplete={async (res) => {
           const pdfUrl =
-            res?.[0]?.serverData?.FileUrl;
+            res?.[0]?.serverData?.fileUrl;
 
           if (!pdfUrl) return;
 

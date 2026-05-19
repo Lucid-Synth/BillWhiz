@@ -28,6 +28,7 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ file, metadata }) => {
       console.log("Uploaded by:", metadata.userEmail);
+      console.log("File URL:", file.ufsUrl)
 
       return {
         fileUrl: file.ufsUrl,

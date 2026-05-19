@@ -24,6 +24,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Protect all API routes except auth
-    "/api/((?!auth).*)",
+    "/api/((?!auth|uploadthing).*)",
   ],
 };
