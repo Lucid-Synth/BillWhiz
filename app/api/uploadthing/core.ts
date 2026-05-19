@@ -9,7 +9,11 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   }).onUploadComplete(async ({ file }) => {
-    console.log(file.ufsUrl);
+    console.log("File Url:" + file.ufsUrl);
+
+    return {
+      FileUrl: file.ufsUrl
+    }
   }),
 } satisfies FileRouter;
 
