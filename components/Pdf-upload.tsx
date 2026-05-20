@@ -178,10 +178,10 @@ export default function PdfUploader(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [invoiceData, setInvoiceData] = useState<InvoiceResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loadingStep, setLoadingStep] = useState("Uploading invoice...");
 
   const handleParsePdf = async (pdfUrl: string): Promise<void> => {
     try {
-      setLoading(true);
       setError(null);
       setInvoiceData(null);
       const requestId = crypto.randomUUID();
@@ -244,72 +244,127 @@ export default function PdfUploader(): JSX.Element {
           <p className="text-sm text-white/35">Upload a PDF to get an instant AI-powered breakdown</p>
         </div>
 
-        {/* ── Upload zone ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6, scale: 0.98 }}
-          transition={{ duration: 0.3 }}
-          className="relative group mb-8"
-        >
-          {/* Upload overlay */}
-          <div className="absolute inset-0 z-20">
-            <UploadButton<OurFileRouter, "pdfUploader">
-              endpoint="pdfUploader"
-              appearance={{
-                button:
-                  "w-full h-full bg-transparent border-0 shadow-none text-transparent hover:bg-transparent",
-                allowedContent: "hidden",
-              }}
-              content={{
-                button() {
-                  return <span className="hidden">Upload</span>;
-                },
-              }}
-              className="w-full h-full opacity-0 cursor-pointer"
-              onClientUploadComplete={async (res) => {
-                const pdfUrl = res?.[0]?.serverData?.fileUrl;
-                if (!pdfUrl) return;
+        <AnimatePresence>
 
-                await handleParsePdf(pdfUrl);
-              }}
-              onUploadError={(err: Error) => setError(err.message)}
-            />
-          </div>
+          {/* ── Upload Zone ── */}
+          {invoiceData === null && (
+            <motion.div
+              key="upload"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              className="relative group mb-8"
+            >
+              {/* Upload overlay */}
+              <div className="absolute inset-0 z-20">
+                <UploadButton<OurFileRouter, "pdfUploader">
+                  endpoint="pdfUploader"
 
-          {/* Glow */}
-          <div className="absolute inset-0 rounded-2xl bg-amber-400/0 group-hover:bg-amber-400/[0.03] transition-all duration-500 pointer-events-none" />
+                  onUploadBegin={() => {
+                    setLoading(true);
+                    setLoadingStep("Uploading invoice...")
+                  }}
 
-          {/* UI */}
-          <div className="rounded-2xl border-2 border-dashed border-white/[0.08] group-hover:border-amber-400/30 transition-colors duration-300 p-10 flex flex-col items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-            </div>
+                  appearance={{
+                    button:
+                      "w-full h-full bg-transparent border-0 shadow-none text-transparent hover:bg-transparent",
+                    allowedContent: "hidden",
+                  }}
+                  content={{
+                    button() {
+                      return <span className="hidden">Upload</span>;
+                    },
+                  }}
+                  className="w-full h-full opacity-0 cursor-pointer"
+                  onClientUploadComplete={async (res) => {
+                    setLoadingStep("Analyzing invoice...")
 
-            <div className="text-center">
-              <p className="text-sm font-medium text-white/60 mb-1">
-                Drop your invoice here
-              </p>
-              <p className="text-xs text-white/25">
-                PDF only · Max 10 MB
-              </p>
-            </div>
-          </div>
-        </motion.div>
+                    const pdfUrl = res?.[0]?.serverData?.fileUrl;
+                    if (!pdfUrl) return;
+
+                    await handleParsePdf(pdfUrl);
+                  }}
+                  onUploadError={(err: Error) => setError(err.message)}
+                />
+              </div>
+
+              {/* Glow */}
+              <div className="absolute inset-0 rounded-2xl bg-amber-400/0 group-hover:bg-amber-400/[0.03] transition-all duration-500 pointer-events-none" />
+
+              {/* UI */}
+              <div className="rounded-2xl border-2 border-dashed border-white/[0.08] group-hover:border-amber-400/30 transition-colors duration-300 p-10 flex flex-col items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+
+                  {loading ? (
+                    <div className="w-5 h-5 rounded-full border-2 border-white/20 border-t-amber-400 animate-spin" />
+                  ) : (
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-white/40"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                  )}
+
+                </div>
+
+                <div className="text-center">
+                  <p className="text-xs text-white/25">
+                    {loading
+                      ? "Please wait while we process your invoice..."
+                      : "PDF only · Max 10 MB"}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ── Loading State ── */}
+          {loading && (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="mb-8"
+            >
+              <div className="rounded-2xl border border-white/[0.07] bg-[#111216] p-10">
+                <div className="flex flex-col items-center justify-center text-center">
+
+                  {/* Spinner */}
+                  <div className="relative mb-5">
+                    <div className="w-14 h-14 rounded-full border-2 border-white/[0.06]" />
+                    <div className="absolute inset-0 w-14 h-14 rounded-full border-2 border-transparent border-t-amber-400 animate-spin" />
+                  </div>
+
+                  <p className="text-sm font-medium text-white/65 mb-1">
+                    Analyzing invoice
+                  </p>
+
+                  <p className="text-xs text-white/30 mb-6">
+                    Extracting line items and checking anomalies...
+                  </p>
+
+                  <div className="w-full max-w-md">
+                    <LoadingSkeleton />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+        </AnimatePresence>
 
         {/* ── Error ── */}
         <AnimatePresence>
@@ -335,17 +390,6 @@ export default function PdfUploader(): JSX.Element {
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* ── Loading ── */}
-        {loading && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-5">
-            <div className="flex items-center gap-3 mb-6 px-1">
-              <span className="w-4 h-4 border-2 border-amber-400/20 border-t-amber-400 rounded-full animate-spin" />
-              <span className="text-sm text-white/40">Reading your invoice…</span>
-            </div>
-            <LoadingSkeleton />
-          </motion.div>
-        )}
 
         {/* ── Empty ── */}
         {!loading && invoiceData === null && error === null && <EmptyState />}

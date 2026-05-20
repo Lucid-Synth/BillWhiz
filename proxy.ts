@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
 
   if (pathname.startsWith("/api/auth")) {
     return NextResponse.next();
-  }
+  };
 
   // Check for session cookie
   const sessionToken = request.cookies.get("better-auth.session_token")?.value;
