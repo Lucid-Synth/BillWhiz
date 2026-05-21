@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Syne } from "next/font/google";
+import { Syne, Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const syne = Syne({
   subsets: ["latin"],
@@ -23,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${syne.variable} h-full antialiased relative`}
+      className={cn("h-full", "antialiased", "relative", syne.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col relative">{children}</body>
     </html>
