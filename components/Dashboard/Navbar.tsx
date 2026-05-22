@@ -13,7 +13,7 @@ const GithubIcon = (): JSX.Element => (
 
 export default function Dashnavbar(): JSX.Element {
   return (
-    <header className="h-14 shrink-0 flex items-center justify-between px-6 border-b border-white/[0.06] bg-[#0A0B0F]/80 backdrop-blur-md sticky top-0 z-40">
+    <header className="h-14 shrink-0 flex items-center justify-between px-6 border-b border-white/6 bg-[#0A0B0F]/80 backdrop-blur-md sticky top-0 z-40">
 
       {/* Left — page context slot (optional breadcrumb or title) */}
       {/* <Heading /> */}
@@ -28,17 +28,17 @@ export default function Dashnavbar(): JSX.Element {
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-8 h-8 rounded-lg flex items-center justify-center text-white/35 hover:text-white hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all"
+          className="w-8 h-8 rounded-lg flex items-center justify-center text-white/35 hover:text-white hover:bg-white/6 border border-transparent hover:border-white/8 transition-all"
         >
           <GithubIcon />
         </Link>
 
         {/* Divider */}
-        <div className="w-px h-5 bg-white/[0.08] mx-1" />
+        <div className="w-px h-5 bg-white/8 mx-1" />
 
         {/* Profile */}
-        <button className="flex items-center gap-2.5 pl-1 pr-2.5 py-1 rounded-xl hover:bg-white/[0.05] border border-transparent hover:border-white/[0.07] transition-all group">
-          <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/[0.1] bg-amber-400/15 shrink-0">
+        <button className="flex items-center gap-2.5 pl-1 pr-2.5 py-1 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all group">
+          <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/1 bg-amber-400/15 shrink-0">
 
             {/* Initials fallback */}
             <span className="absolute inset-0 flex items-center justify-center text-amber-400 text-xs font-bold">

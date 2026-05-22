@@ -74,10 +74,10 @@ export default function Sidebar(): JSX.Element {
     <motion.aside
       animate={{ width: open ? 220 : 64 }}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex flex-col h-screen bg-[#0D0E12] border-r border-white/[0.06] shrink-0 overflow-hidden"
+      className="relative flex flex-col h-screen bg-[#0D0E12] border-r border-white/6 shrink-0 overflow-hidden"
     >
       {/* Logo + toggle */}
-      <div className="flex items-center h-14 px-4 border-b border-white/[0.06] shrink-0">
+      <div className="flex items-center h-14 px-4 border-b border-white/6 shrink-0">
         <AnimatePresence initial={false}>
           {open && (
             <motion.div
@@ -98,7 +98,7 @@ export default function Sidebar(): JSX.Element {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className={`w-7 h-7 rounded-lg flex items-center justify-center text-white/30 hover:text-white hover:bg-white/[0.06] transition-all ${!open ? "mx-auto" : "ml-auto"}`}
+          className={`w-7 h-7 rounded-lg flex items-center justify-center text-white/30 hover:text-white hover:bg-white/6 transition-all ${!open ? "mx-auto" : "ml-auto"}`}
         >
           <motion.svg
             animate={{ rotate: open ? 0 : 180 }}
@@ -123,7 +123,7 @@ export default function Sidebar(): JSX.Element {
                 relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-150 group
                 ${active
                   ? "bg-amber-400/10 text-amber-400"
-                  : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
+                  : "text-white/40 hover:text-white/80 hover:bg-white/4"
                 }
               `}
             >
@@ -153,7 +153,7 @@ export default function Sidebar(): JSX.Element {
 
               {/* Tooltip when collapsed */}
               {!open && (
-                <div className="absolute left-full ml-3 px-2.5 py-1.5 rounded-lg bg-[#1A1B22] border border-white/[0.08] text-xs font-medium text-white/70 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
+                <div className="absolute left-full ml-3 px-2.5 py-1.5 rounded-lg bg-[#1A1B22] border border-white/8 text-xs font-medium text-white/70 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
                   {item.label}
                 </div>
               )}
@@ -163,7 +163,7 @@ export default function Sidebar(): JSX.Element {
       </nav>
 
       {/* User footer */}
-      <div className={`shrink-0 px-2 py-3 border-t border-white/[0.06] flex items-center gap-3 ${!open && "justify-center"}`}>
+      <div className={`shrink-0 px-2 py-3 border-t border-white/6 flex items-center gap-3 ${!open && "justify-center"}`}>
         <div className="w-8 h-8 rounded-full bg-amber-400/15 border border-amber-400/20 flex items-center justify-center shrink-0">
           <span className="text-amber-400 text-xs font-bold">U</span>
         </div>

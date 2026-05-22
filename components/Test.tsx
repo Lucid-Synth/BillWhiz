@@ -7,7 +7,7 @@ function Heading() {
     <LampHeading
   text="Dashboard"
   textSize="lg"
-  className="bg-gradient-to-r from-orange-600 via-red-500 to-yellow-500 bg-clip-text text-transparent"
+  className="bg-linear-to-r from-orange-600 via-red-500 to-yellow-500 bg-clip-text text-transparent"
   glowIntensity={0.8}
   glowSize={40}
   showParticles={true}
