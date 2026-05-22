@@ -100,10 +100,10 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
 
 function CardHeader({ label, count }: { label: string; count?: number }): JSX.Element {
   return (
-    <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-white/[0.05]">
+    <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-white/5">
       <span className="text-[11px] font-semibold uppercase tracking-widest text-white/25">{label}</span>
       {count !== undefined && (
-        <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.07] text-white/35">
+        <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/5 border border-white/[0.07] text-white/35">
           {count}
         </span>
       )}
@@ -113,7 +113,7 @@ function CardHeader({ label, count }: { label: string; count?: number }): JSX.El
 
 function InfoRow({ label, value }: { label: string; value: string | null }): JSX.Element {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-white/[0.04] last:border-0">
+    <div className="flex items-center justify-between py-3 border-b border-white/4 last:border-0">
       <span className="text-xs text-white/35">{label}</span>
       <span className="text-xs font-medium text-white/75">{value ?? "—"}</span>
     </div>
@@ -129,14 +129,14 @@ function LoadingSkeleton(): JSX.Element {
         [220, "100%", "55%"],
         [160, "100%", "80%"],
       ].map(([_, w1, w2], i) => (
-        <div key={i} className="rounded-2xl border border-white/[0.06] bg-[#111216] overflow-hidden">
-          <div className="px-6 py-4 border-b border-white/[0.04] flex items-center gap-3">
-            <div className="h-2 w-24 rounded bg-white/[0.06]" />
+        <div key={i} className="rounded-2xl border border-white/6 bg-[#111216] overflow-hidden">
+          <div className="px-6 py-4 border-b border-white/4 flex items-center gap-3">
+            <div className="h-2 w-24 rounded bg-white/6" />
           </div>
           <div className="px-6 py-5 space-y-3">
-            <div className="h-2.5 rounded bg-white/[0.05]" style={{ width: w1 }} />
-            <div className="h-2.5 rounded bg-white/[0.04]" style={{ width: w2 }} />
-            <div className="h-2.5 rounded bg-white/[0.03] w-1/2" />
+            <div className="h-2.5 rounded bg-white/5" style={{ width: w1 }} />
+            <div className="h-2.5 rounded bg-white/4" style={{ width: w2 }} />
+            <div className="h-2.5 rounded bg-white/3 w-1/2" />
           </div>
         </div>
       ))}
@@ -165,7 +165,7 @@ function EmptyState(): JSX.Element {
         </div>
       </div>
       <p className="text-sm font-semibold text-white/50 mb-1.5">No invoice uploaded yet</p>
-      <p className="text-xs text-white/25 max-w-[200px] leading-relaxed">
+      <p className="text-xs text-white/25 max-w-50 leading-relaxed">
         Upload a PDF above to get an instant AI-powered breakdown
       </p>
     </motion.div>
@@ -209,8 +209,8 @@ export default function PdfUploader(): JSX.Element {
 
       {/* ── Ambient glow ── */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-amber-500/[0.05] rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-600/[0.04] rounded-full blur-3xl" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-150 h-100 bg-amber-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-75 h-75 bg-blue-600/4 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-2xl mx-auto px-5 py-10">
@@ -290,11 +290,11 @@ export default function PdfUploader(): JSX.Element {
               </div>
 
               {/* Glow */}
-              <div className="absolute inset-0 rounded-2xl bg-amber-400/0 group-hover:bg-amber-400/[0.03] transition-all duration-500 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-amber-400/0 group-hover:bg-amber-400/3 transition-all duration-500 pointer-events-none" />
 
               {/* UI */}
-              <div className="rounded-2xl border-2 border-dashed border-white/[0.08] group-hover:border-amber-400/30 transition-colors duration-300 p-10 flex flex-col items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center">
+              <div className="rounded-2xl border-2 border-dashed border-white/8 group-hover:border-amber-400/30 transition-colors duration-300 p-10 flex flex-col items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/4 border border-white/8 flex items-center justify-center">
 
                   {loading ? (
                     <div className="w-5 h-5 rounded-full border-2 border-white/20 border-t-amber-400 animate-spin" />
@@ -344,7 +344,7 @@ export default function PdfUploader(): JSX.Element {
 
                   {/* Spinner */}
                   <div className="relative mb-5">
-                    <div className="w-14 h-14 rounded-full border-2 border-white/[0.06]" />
+                    <div className="w-14 h-14 rounded-full border-2 border-white/6" />
                     <div className="absolute inset-0 w-14 h-14 rounded-full border-2 border-transparent border-t-amber-400 animate-spin" />
                   </div>
 
@@ -407,8 +407,8 @@ export default function PdfUploader(): JSX.Element {
               <FadeUp delay={0}>
                 <div className="rounded-2xl border border-white/[0.07] bg-[#111216] overflow-hidden">
                   {/* Top band */}
-                  <div className="relative px-6 pt-6 pb-5 border-b border-white/[0.05] overflow-hidden">
-                    <div className="absolute right-0 top-0 w-48 h-full bg-gradient-to-l from-amber-400/[0.05] to-transparent pointer-events-none" />
+                  <div className="relative px-6 pt-6 pb-5 border-b border-white/5 overflow-hidden">
+                    <div className="absolute right-0 top-0 w-48 h-full bg-linear-to-l from-amber-400/5 to-transparent pointer-events-none" />
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-widest text-white/25 mb-2">Invoice Summary</p>
@@ -440,7 +440,7 @@ export default function PdfUploader(): JSX.Element {
               {/* ── AI explanation ── */}
               {customer_friendly_summary !== undefined && customer_friendly_summary?.length > 0 && (
                 <FadeUp delay={0.07}>
-                  <div className="rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-400/[0.06] to-transparent p-6">
+                  <div className="rounded-2xl border border-amber-400/15 bg-linear-to-br from-amber-400/6 to-transparent p-6">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-5 h-5 rounded-md bg-amber-400/15 border border-amber-400/20 flex items-center justify-center">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
@@ -462,7 +462,7 @@ export default function PdfUploader(): JSX.Element {
                     <CardHeader label="Line Items" count={line_items.length} />
                     <div className="p-3 space-y-2">
                       {line_items.map((item, i) => (
-                        <div key={i} className="rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.04] p-4 transition-colors group">
+                        <div key={i} className="rounded-xl bg-white/2 hover:bg-white/4 border border-white/4 p-4 transition-colors group">
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <p className="text-sm font-semibold text-white/85 leading-snug">{item.item}</p>
                             <p className="text-sm font-bold text-amber-400 shrink-0 tabular-nums">
@@ -474,7 +474,7 @@ export default function PdfUploader(): JSX.Element {
                             <span className="text-[11px] text-white/20 font-mono">×{item.quantity}</span>
                             <span className="text-[11px] text-white/20">@ {fmt(item.unit_price, s.currency)}</span>
                             {item.category?.length ? (
-                              <span className="ml-auto text-[11px] px-2 py-0.5 rounded-full border border-white/[0.07] bg-white/[0.03] text-white/25">
+                              <span className="ml-auto text-[11px] px-2 py-0.5 rounded-full border border-white/[0.07] bg-white/3 text-white/25">
                                 {item.category}
                               </span>
                             ) : null}
@@ -489,7 +489,7 @@ export default function PdfUploader(): JSX.Element {
               {/* ── Anomalies ── */}
               <FadeUp delay={0.16}>
                 <Card>
-                  <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-white/[0.05]">
+                  <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-white/5">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/25">
                       Anomalies
                     </span>
@@ -551,7 +551,7 @@ export default function PdfUploader(): JSX.Element {
               <FadeUp delay={0.2}>
                 <button
                   onClick={() => { setInvoiceData(null); setError(null); }}
-                  className="w-full py-3 rounded-xl border border-white/[0.06] hover:border-white/[0.12] text-sm text-white/30 hover:text-white/60 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-xl border border-white/6 hover:border-white/12 text-sm text-white/30 hover:text-white/60 transition-all flex items-center justify-center gap-2"
                 >
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 .49-3.7" />
