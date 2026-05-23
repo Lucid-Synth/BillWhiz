@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { JSX } from "react";
+import { authClient } from "@/app/lib/auth-client";
+import Image from "next/image";
 
 interface NavItem {
   label: string;
@@ -58,6 +60,13 @@ const navItems: NavItem[] = [
 export default function Sidebar(): JSX.Element {
   const [open, setOpen] = useState<boolean>(true);
   const pathname = usePathname();
+
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch //refetch the session
+  } = authClient.useSession()
 
   return (
     <motion.aside
@@ -153,8 +162,19 @@ export default function Sidebar(): JSX.Element {
 
       {/* User footer */}
       <div className={`shrink-0 px-2 py-3 border-t border-white/6 flex items-center gap-3 ${!open && "justify-center"}`}>
-        <div className="w-8 h-8 rounded-full bg-amber-400/15 border border-amber-400/20 flex items-center justify-center shrink-0">
-          <span className="text-amber-400 text-xs font-bold">U</span>
+        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-white/10 bg-linear-to-br from-orange-400/20 to-yellow-400/20">
+          {session?.user?.image ? (
+            <Image
+              src={session.user.image}
+              alt={session.user.name || "User"}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-orange-400">
+              {session?.user?.name?.charAt(0).toUpperCase() || "U"}
+            </span>
+          )}
         </div>
         <AnimatePresence initial={false}>
           {open && (
@@ -166,8 +186,8 @@ export default function Sidebar(): JSX.Element {
               transition={{ duration: 0.15 }}
               className="min-w-0"
             >
-              <p className="text-xs font-medium text-white/70 truncate">User</p>
-              <p className="text-[11px] text-white/25 truncate">user@email.com</p>
+              <p className="text-xs font-medium text-white/70 truncate">{session?.user?.name}</p>
+              <p className="text-[11px] text-white/25 truncate">{session?.user?.email}</p>
             </motion.div>
           )}
         </AnimatePresence>
