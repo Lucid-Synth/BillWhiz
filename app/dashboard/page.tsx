@@ -1,8 +1,9 @@
+import PdfUploader from '@/components/Pdf-upload'
 import React from 'react'
 
 function page() {
   return (
-    <div>page</div>
+    <PdfUploader />
   )
 }
 

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import type { JSX } from "react";
-import Heading from "../Test";
+import { useState, type JSX } from "react";
+import { authClient } from "@/app/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const GithubIcon = (): JSX.Element => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -12,10 +13,21 @@ const GithubIcon = (): JSX.Element => (
 );
 
 export default function Dashnavbar(): JSX.Element {
+  const [open, setOpen] = useState(false);
+
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch //refetch the session
+  } = authClient.useSession()
+
+  const router = useRouter()
+
+
   return (
     <header className="h-14 shrink-0 flex items-center justify-between px-6 border-b border-white/6 bg-[#0A0B0F]/80 backdrop-blur-md sticky top-0 z-40">
 
-      {/* Left — page context slot (optional breadcrumb or title) */}
       {/* <Heading /> */}
 
       <div className="bg-linear-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent text-xl font-extrabold">Dashboard</div>
@@ -25,7 +37,7 @@ export default function Dashnavbar(): JSX.Element {
 
         {/* GitHub */}
         <Link
-          href="https://github.com"
+          href="https://github.com/Lucid-Synth/BillWhiz"
           target="_blank"
           rel="noopener noreferrer"
           className="w-8 h-8 rounded-lg flex items-center justify-center text-white/35 hover:text-white hover:bg-white/6 border border-transparent hover:border-white/8 transition-all"
@@ -37,21 +49,81 @@ export default function Dashnavbar(): JSX.Element {
         <div className="w-px h-5 bg-white/8 mx-1" />
 
         {/* Profile */}
-        <button className="flex items-center gap-2.5 pl-1 pr-2.5 py-1 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all group">
-          <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/1 bg-amber-400/15 shrink-0">
+        <div className="relative">
+          <button
+            onClick={() => setOpen(!open)}
+            className="group flex items-center gap-3 rounded-2xl border border-white/6 bg-white/2 px-2 py-1.5 transition-all duration-200 hover:border-white/12 hover:bg-white/5 active:scale-[0.98]"
+          >
+            {/* Avatar */}
+            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-white/10 bg-linear-to-br from-orange-400/20 to-yellow-400/20">
+              {session?.user?.image ? (
+                <Image
+                  src={session.user.image}
+                  alt={session.user.name || "User"}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-orange-400">
+                  {session?.user?.name?.charAt(0).toUpperCase() || "U"}
+                </span>
+              )}
+            </div>
 
-            {/* Initials fallback */}
-            <span className="absolute inset-0 flex items-center justify-center text-amber-400 text-xs font-bold">
-              U
-            </span>
-          </div>
-          <span className="text-xs font-medium text-white/50 group-hover:text-white/80 transition-colors hidden sm:block">
-            User
-          </span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/20 group-hover:text-white/40 transition-colors hidden sm:block">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
+            {/* User Info */}
+            <div className="hidden min-w-0 sm:flex flex-col items-start">
+              <span className="max-w-30 truncate text-sm font-semibold text-white/90">
+                {session?.user?.name || "User"}
+              </span>
+
+              <span className="max-w-35 truncate text-[11px] text-white/40">
+                {session?.user?.email}
+              </span>
+            </div>
+
+            {/* Chevron */}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`hidden sm:block text-white/25 transition-all duration-200 group-hover:text-white/60 ${open ? "rotate-180" : ""
+                }`}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          {/* Drawer */}
+          {open && (
+            <div className="absolute right-0 top-14 z-50 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[#111318]/95 p-2 backdrop-blur-xl shadow-2xl">
+
+              <button
+                onClick={() => {
+                  router.push('/dashboard/profile')
+                  setOpen(false)
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                Profile
+              </button>
+
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  authClient.signOut();
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
+              >
+                Sign out
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

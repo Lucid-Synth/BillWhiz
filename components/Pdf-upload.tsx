@@ -213,16 +213,10 @@ export default function PdfUploader(): JSX.Element {
         <div className="absolute bottom-0 right-0 w-75 h-75 bg-blue-600/4 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-2xl mx-auto px-5 py-10">
+      <div className="relative max-w-2xl mx-auto px-5 py-6">
 
         {/* ── Nav ── */}
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-amber-400 flex items-center justify-center shadow-lg shadow-amber-400/20">
-              <span className="text-[#0A0B0F] font-bold text-sm leading-none">B</span>
-            </div>
-            <span className="font-semibold text-sm tracking-wide">BillWhiz</span>
-          </div>
+        <div className="flex items-center justify-between">
           {invoiceData !== null && (
             <motion.button
               initial={{ opacity: 0, scale: 0.9 }}
