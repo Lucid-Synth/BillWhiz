@@ -22,11 +22,10 @@ BillWhiz helps users upload invoices as PDFs , automatically extract billing dat
 # 🧠 High-Level Architecture
 
 ```txt
-1. User uploads invoice (PDF/Image)
+1. User uploads invoice (PDFs)
         ↓
 2. Parse invoice data
    - PDF → pdf-parse
-   - Image → OCR (tesseract.js)
         ↓
 3. Send structured data to Groq LLM
         ↓
@@ -53,7 +52,6 @@ BillWhiz helps users upload invoices as PDFs , automatically extract billing dat
 | AI            | Groq                                |
 | Email         | Resend                              |
 | PDF Parsing   | pdf-parse                           |
-| OCR           | tesseract.js                        |
 
 ---
 
