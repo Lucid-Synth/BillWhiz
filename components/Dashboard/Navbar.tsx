@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, type JSX } from "react";
+import {
+  useState,
+  useEffect,
+  type JSX,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+
 import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { SidebarTrigger } from "@/components/Dashboard/Sidebar";
 
 const GithubIcon = (): JSX.Element => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -12,25 +20,48 @@ const GithubIcon = (): JSX.Element => (
   </svg>
 );
 
-export default function Dashnavbar(): JSX.Element {
+export default function Dashnavbar({
+  setMobileOpen,
+}: {
+  setMobileOpen: Dispatch<SetStateAction<boolean>>;
+}): JSX.Element {
   const [open, setOpen] = useState(false);
 
-  const {
-    data: session,
-    isPending, //loading state
-    error, //error object
-    refetch //refetch the session
-  } = authClient.useSession()
+  const { data: session } = authClient.useSession();
 
-  const router = useRouter()
+  const router = useRouter();
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpen(false);
+    };
+
+    if (open) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [open]);
 
   return (
-    <header className="h-14 shrink-0 flex items-center justify-between px-6 border-b border-white/6 bg-[#0A0B0F]/80 backdrop-blur-md sticky top-0 z-40">
+    <header className="h-14 shrink-0 flex items-center justify-between px-4 sm:px-6 border-b border-white/6 bg-[#0A0B0F]/80 backdrop-blur-md sticky top-0 z-40">
+      
+      {/* Left */}
+      <div className="flex items-center gap-3">
+        
+        {/* Mobile Sidebar Trigger */}
+        <div className="md:hidden">
+          <SidebarTrigger onClick={() => setMobileOpen(true)} />
+        </div>
 
-      {/* <Heading /> */}
-
-      <div className="bg-linear-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent text-xl font-extrabold">Dashboard</div>
+        {/* Title */}
+        <div className="bg-linear-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent text-xl font-extrabold">
+          Dashboard
+        </div>
+      </div>
 
       {/* Right */}
       <div className="flex items-center gap-2">
@@ -40,18 +71,21 @@ export default function Dashnavbar(): JSX.Element {
           href="https://github.com/Lucid-Synth/BillWhiz"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-8 h-8 rounded-lg flex items-center justify-center text-white/35 hover:text-white hover:bg-white/6 border border-transparent hover:border-white/8 transition-all"
+          className="hidden sm:flex w-8 h-8 rounded-lg items-center justify-center text-white/35 hover:text-white hover:bg-white/6 border border-transparent hover:border-white/8 transition-all"
         >
           <GithubIcon />
         </Link>
 
         {/* Divider */}
-        <div className="w-px h-5 bg-white/8 mx-1" />
+        <div className="hidden sm:block w-px h-5 bg-white/8 mx-1" />
 
         {/* Profile */}
         <div className="relative">
           <button
-            onClick={() => setOpen(!open)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(!open);
+            }}
             className="group flex items-center gap-3 rounded-2xl border border-white/6 bg-white/2 px-2 py-1.5 transition-all duration-200 hover:border-white/12 hover:bg-white/5 active:scale-[0.98]"
           >
             {/* Avatar */}
@@ -91,8 +125,9 @@ export default function Dashnavbar(): JSX.Element {
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className={`hidden sm:block text-white/25 transition-all duration-200 group-hover:text-white/60 ${open ? "rotate-180" : ""
-                }`}
+              className={`hidden sm:block text-white/25 transition-all duration-200 group-hover:text-white/60 ${
+                open ? "rotate-180" : ""
+              }`}
             >
               <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -100,12 +135,12 @@ export default function Dashnavbar(): JSX.Element {
 
           {/* Drawer */}
           {open && (
-            <div className="absolute right-0 top-14 z-50 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[#111318]/95 p-2 backdrop-blur-xl shadow-2xl">
-
+            <div className="absolute right-0 mt-2 z-999 w-44 overflow-hidden rounded-2xl border border-white/10 bg-[#111318]/95 p-2 backdrop-blur-xl shadow-2xl">
+              
               <button
                 onClick={() => {
-                  router.push('/dashboard/profile')
-                  setOpen(false)
+                  router.push("/dashboard/profile");
+                  setOpen(false);
                 }}
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
               >

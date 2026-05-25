@@ -164,15 +164,12 @@ export default function SettingsPage(): JSX.Element {
 
     const [toasts, setToasts] = useState<Toast[]>([]);
     const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
-    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
 
     const [nameForm, setNameForm] = useState({
         name: session?.user?.name || "",
     });
     const [loadingName, setLoadingName] = useState(false);
-    const [loadingPhoto, setLoadingPhoto] = useState(false);
-
     const toastId = useRef(0);
 
     function addToast(message: string, type: ToastType): void {
@@ -206,34 +203,6 @@ export default function SettingsPage(): JSX.Element {
         }
     }
 
-    function handleAvatarChange(e: ChangeEvent<HTMLInputElement>): void {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        const url = URL.createObjectURL(file);
-        setAvatarPreview(url);
-    }
-
-    async function handlePhotoSave(e: FormEvent): Promise<void> {
-        e.preventDefault();
-        if (!avatarPreview) return;
-        try{
-            setLoadingPhoto(true);
-
-            await authClient.updateUser({
-                image: avatarPreview
-            });
-
-            await refetch();
-
-            addToast("Profile photo updated","success");
-        }
-        catch(error){
-            addToast("Failed to update photo","error");
-        }
-        finally{
-            setLoadingPhoto(false);
-        }
-    }
 
     function handleLogoutConfirm(): void {
         setLogoutDialog(false);
@@ -264,54 +233,6 @@ export default function SettingsPage(): JSX.Element {
                         <div className="flex justify-end">
                             <SaveButton loading={loadingName} />
                         </div>
-                    </form>
-                </SectionCard>
-            </motion.div>
-
-            {/* ── Profile photo ── */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}>
-                <SectionCard title="Profile Photo" description="Upload a new avatar — JPG, PNG or WebP">
-                    <form onSubmit={handlePhotoSave} className="space-y-4">
-                        <div className="flex items-center gap-5">
-                            <div
-                                onClick={() => fileRef.current?.click()}
-                                className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-dashed border-white/12 hover:border-amber-400/40 bg-white/3 cursor-pointer group transition-colors shrink-0"
-                            >
-                                {avatarPreview ? (
-                                    <Image src={avatarPreview} alt="Preview" fill className="object-cover" />
-                                ) : (
-                                    <div className="absolute inset-0 flex items-center justify-center text-white/20 group-hover:text-amber-400/60 transition-colors">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                            <polyline points="17 8 12 3 7 8" />
-                                            <line x1="12" y1="3" x2="12" y2="15" />
-                                        </svg>
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <button
-                                    type="button"
-                                    onClick={() => fileRef.current?.click()}
-                                    className="text-sm font-medium text-amber-400 hover:text-amber-300 transition-colors"
-                                >
-                                    Choose photo
-                                </button>
-                                <p className="text-xs text-white/25 mt-0.5">Max 5 MB</p>
-                            </div>
-                            <input
-                                ref={fileRef}
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleAvatarChange}
-                            />
-                        </div>
-                        {avatarPreview && (
-                            <div className="flex justify-end">
-                                <SaveButton loading={loadingPhoto} label="Upload photo" />
-                            </div>
-                        )}
                     </form>
                 </SectionCard>
             </motion.div>
