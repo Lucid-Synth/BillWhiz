@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { JSX } from "react";
+import { authClient } from "@/app/lib/auth-client";
+import { redirect } from "next/navigation";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface HistoryItem {
   id: string;
@@ -90,7 +91,6 @@ const MOCK_HISTORY: HistoryItem[] = [
   },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -104,7 +104,6 @@ function fmt(value: number, currency: string): string {
   return `${currency} ${value.toLocaleString()}`;
 }
 
-// ─── Empty state ──────────────────────────────────────────────────────────────
 
 function EmptyState(): JSX.Element {
   return (
@@ -132,7 +131,6 @@ function EmptyState(): JSX.Element {
   );
 }
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
 
 function HistoryCard({ item, index }: { item: HistoryItem; index: number }): JSX.Element {
   return (
@@ -202,7 +200,6 @@ function HistoryCard({ item, index }: { item: HistoryItem; index: number }): JSX
   );
 }
 
-// ─── Filter bar ───────────────────────────────────────────────────────────────
 
 type Filter = "all" | "anomalies" | "clean";
 
@@ -232,7 +229,6 @@ function FilterBar({ active, onChange }: { active: Filter; onChange: (f: Filter)
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HistoryPage(): JSX.Element {
   const [filter, setFilter] = useState<Filter>("all");
@@ -252,6 +248,14 @@ export default function HistoryPage(): JSX.Element {
 
     return matchesFilter && matchesSearch;
   });
+
+  const{ data:session,
+        refetch
+  } = authClient.useSession()
+
+  if(!session){
+    redirect('/unauthorized');
+  }
 
   return (
     <div className="px-6 py-8 max-w-6xl mx-auto">

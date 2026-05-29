@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import type { JSX, ChangeEvent, FormEvent } from "react";
+import type { JSX, FormEvent } from "react";
 import { authClient } from "@/app/lib/auth-client";
+import { redirect } from "next/navigation";
 
 type ToastType = "success" | "error";
 
@@ -73,8 +73,8 @@ function ToastList({ toasts, onDismiss }: { toasts: Toast[]; onDismiss: (id: num
                         exit={{ opacity: 0, y: 6, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium shadow-xl ${t.type === "success"
-                                ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                                : "bg-red-500/10 border-red-500/20 text-red-400"
+                            ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                            : "bg-red-500/10 border-red-500/20 text-red-400"
                             }`}
                     >
                         {t.type === "success" ? (
@@ -161,6 +161,9 @@ export default function SettingsPage(): JSX.Element {
         refetch
     } = authClient.useSession();
 
+    if (!session) {
+        redirect('/unauthorized');
+    }
 
     const [toasts, setToasts] = useState<Toast[]>([]);
     const [logoutDialog, setLogoutDialog] = useState<boolean>(false);
@@ -184,7 +187,7 @@ export default function SettingsPage(): JSX.Element {
 
     async function handleNameSave(e: FormEvent): Promise<void> {
         e.preventDefault();
-        try{
+        try {
             setLoadingName(true);
 
             await authClient.updateUser({
@@ -193,12 +196,12 @@ export default function SettingsPage(): JSX.Element {
 
             await refetch();
 
-            addToast("Name updated successfully","success");
+            addToast("Name updated successfully", "success");
         }
-        catch(error){
-            addToast("Error in updating name","error");
+        catch (error) {
+            addToast("Error in updating name", "error");
         }
-        finally{
+        finally {
             setLoadingName(false);
         }
     }
@@ -207,7 +210,8 @@ export default function SettingsPage(): JSX.Element {
     function handleLogoutConfirm(): void {
         setLogoutDialog(false);
         addToast("Logged out from device", "success");
-        authClient.signOut()
+        authClient.signOut();
+        redirect('/');
     }
 
     return (
@@ -227,7 +231,7 @@ export default function SettingsPage(): JSX.Element {
                                 type="text"
                                 value={nameForm.name}
                                 onChange={(e) => setNameForm({ name: e.target.value })}
-                                placeholder= {session?.user.name}
+                                placeholder={session?.user.name}
                             />
                         </Field>
                         <div className="flex justify-end">
