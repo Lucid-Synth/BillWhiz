@@ -221,7 +221,7 @@ Rules:
         invoiceDate: summary.invoice_date || null,
         dueDate: summary.due_date || null,
         currency: summary.currency || null,
-        total: summary.total_price || null,
+        total: summary.subtotal || null,
         anomalyCount: anomalies.length,
         lineItemCount: lineItems.length,
         summarySnippet: parsedResult.customer_friendly_summary || null,

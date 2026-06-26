@@ -162,7 +162,7 @@ export default function SettingsPage(): JSX.Element {
     } = authClient.useSession();
 
     if (!session) {
-        redirect('/unauthorized');
+        console.log("unauthorized!!")
     }
 
     const [toasts, setToasts] = useState<Toast[]>([]);
