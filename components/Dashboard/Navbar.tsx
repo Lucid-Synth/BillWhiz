@@ -56,11 +56,6 @@ export default function Dashnavbar({
         <div className="md:hidden">
           <SidebarTrigger onClick={() => setMobileOpen(true)} />
         </div>
-
-        {/* Title */}
-        <div className="bg-linear-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent text-xl font-extrabold">
-          Dashboard
-        </div>
       </div>
 
       {/* Right */}
@@ -139,12 +134,12 @@ export default function Dashnavbar({
               
               <button
                 onClick={() => {
-                  router.push("/dashboard/profile");
+                  router.push("/dashboard/settings");
                   setOpen(false);
                 }}
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
               >
-                Profile
+                Settings
               </button>
 
               <button
