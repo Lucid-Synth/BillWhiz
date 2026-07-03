@@ -423,6 +423,20 @@ export default function InvoiceDetail({ invoice }: { invoice: Invoice }): JSX.El
             </div>
           </details>
         </Card>
+        <div className="py-6 flex items-center justify-end">
+          <button className="px-5 py-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/15 text-sm font-bold hover:bg-amber-300/10 active:scale-[0.98] disabled:opacity-60 transition-all flex items-center gap-2 "
+          onClick={async () => {
+            await fetch("/api/send-email",{
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify(invoice)
+            }
+            )
+            alert("Email Sent!")
+          }}>Send as mail</button>
+        </div>
       </motion.div>
 
     </div>
