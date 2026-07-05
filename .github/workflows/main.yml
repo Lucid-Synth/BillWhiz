@@ -36,6 +36,7 @@ jobs:
           UPLOADTHING_TOKEN: ${{ secrets.UPLOADTHING_TOKEN }}
           UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
         run: bun run build
 
