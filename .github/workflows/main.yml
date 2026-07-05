@@ -27,6 +27,16 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build Next.js App
+        env:
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+          NILEDB_URL: ${{ secrets.NILEDB_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          UPLOADTHING_TOKEN: ${{ secrets.UPLOADTHING_TOKEN }}
+          UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
         run: bun run build
 
       - name: Upload Build Artifact
