@@ -1,8 +1,9 @@
-name: BillWhiz Build with caching
+name: BillWhiz Build with Caching
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -10,22 +11,27 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v4
 
-      - name: Setup Node JS
-        uses: actions/setup-node@v6.4.0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24.x
-          cache: 'bun'
+          bun-version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: bun
 
       - name: Install Dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
-      - name: Build Next JS App
+      - name: Build Next.js App
         run: bun run build
 
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v7.0.1
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: nextjs-build
           path: out/
