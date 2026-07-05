@@ -1,0 +1,31 @@
+name: BillWhiz Build with caching
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7.0.0
+
+      - name: Setup Node JS
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: 24.x
+          cache: 'bun'
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build Next JS App
+        run: bun run build
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: nextjs-build
+          path: out/
