@@ -4,7 +4,7 @@ const planFeatures: string[] = [
   "Unlimited invoice uploads",
   "AI explanation & anomaly detection",
   "Email delivery via Resend",
-  "PDF & image support (OCR included)",
+  "PDF supported via uploadthing",
   "Built on Next.js App Router",
   "Open-source & self-hostable",
 ];
