@@ -91,7 +91,7 @@ function Hero() {
           transition={{ duration: 0.75, delay: 0.30, ease: [0.22, 1, 0.36, 1] }}
           className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed"
         >
-          Upload any invoice — PDF or image — and BillWhiz uses AI to decode
+          Upload any invoice — PDF — and BillWhiz uses AI to decode
           charges, catch anomalies, and email a clear summary to anyone.
         </motion.p>
 

@@ -90,7 +90,7 @@ export const steps: Step[] = [
     num: "01",
     icon: <UploadIcon />,
     title: "Upload your invoice",
-    desc: "Drop any PDF or image — scanned receipts, vendor bills, utility statements. We handle the parsing automatically.",
+    desc: "Drop any PDF — scanned receipts, vendor bills, utility statements. We handle the parsing automatically.",
   },
   {
     num: "02",
