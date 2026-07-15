@@ -7,6 +7,7 @@ import type { JSX, FormEvent, ChangeEvent } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import { redirect } from "next/navigation";
 import { convertServerPatchToFullTree } from "next/dist/client/components/segment-cache/navigation";
+import Image from "next/image";
 
 interface Field {
   id: string;
@@ -147,9 +148,13 @@ export default function LoginPage(): JSX.Element {
         className="mb-10 relative z-10"
       >
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-amber-400 flex items-center justify-center shadow-lg shadow-amber-400/20 group-hover:bg-amber-300 transition-colors">
-            <span className="text-[#0A0B0F] font-bold text-base leading-none select-none">B</span>
-          </div>
+           <Image
+                        src="https://i.pinimg.com/736x/b2/5c/5e/b25c5eb015bb5cfa887b9cd5fd9d5818.jpg"
+                        alt="Logo"
+                        width={28}
+                        height={28}
+                        className="object-cover"
+                      />
           <span className="font-semibold text-white text-sm tracking-wide">BillWhiz</span>
         </Link>
       </motion.div>

@@ -161,9 +161,13 @@ function UserFooter({ showLabels }: { showLabels: boolean }): JSX.Element {
 function Logo(): JSX.Element {
   return (
     <div className="flex items-center gap-2.5">
-      <div className="w-6 h-6 rounded-md bg-amber-400 flex items-center justify-center shrink-0">
-        <span className="text-[#0A0B0F] font-bold text-xs leading-none">B</span>
-      </div>
+       <Image
+                    src="https://i.pinimg.com/736x/b2/5c/5e/b25c5eb015bb5cfa887b9cd5fd9d5818.jpg"
+                    alt="Logo"
+                    width={28}
+                    height={28}
+                    className="object-cover"
+                  />
       <span className="font-semibold text-sm tracking-wide whitespace-nowrap">BillWhiz</span>
     </div>
   );
