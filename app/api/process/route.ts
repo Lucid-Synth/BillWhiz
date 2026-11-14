@@ -176,8 +176,8 @@ Rules:
 
     // Groq call
     const completion = await groq.chat.completions.create({
-      model: "groq/compound",
-      temperature: 0.2,
+      model: "openai/gpt-oss-120b",
+      temperature: 0.7,
       response_format: {
         type: "json_object",
       },
